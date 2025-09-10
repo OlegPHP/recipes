@@ -2,6 +2,13 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+        <!-- Admin Code -->
+        <div>
+            <x-input-label for="admin_code" :value="__('Введите код администратора')" />
+            <x-text-input id="admin_code" class="block mt-1 w-full" type="text" name="admin_code" :value="old('admin_code')" required autofocus autocomplete="admin_code" />
+            <x-input-error :messages="$errors->get('admin_code')" class="mt-2" />
+        </div>
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

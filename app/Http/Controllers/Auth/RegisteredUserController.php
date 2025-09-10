@@ -35,6 +35,10 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        if ($request->admin_code !== env('ADMIN_REGISTER_CODE')) {
+            return back()->withErrors(['admin_code' => 'Invalid admin code']);
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
