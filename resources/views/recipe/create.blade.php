@@ -1,63 +1,140 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('recipes.store') }}" enctype="multipart/form-data">
+<x-app-layout>
+    <div class="max-w-4xl mx-auto p-6 bg-gray-900 text-gray-200 space-y-6">
 
-    @csrf
+        <h1 class="text-3xl font-bold mb-4">Добавить рецепт</h1>
 
-<div>
-    <x-input-label for="title" :value="__('Название')" />
-    <x-text-input id="title" type="text" name="title" class="block mt-1 w-full" required />
-    <x-input-error :messages="$errors->get('title')" class="mt-2" />
-</div>
+        <form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            @csrf
 
-<div class="mt-4">
-    <x-input-label for="description" :value="__('Описание')" />
-    <textarea id="description" name="description" class="block mt-1 w-full"></textarea>
-</div>
+            {{-- Название --}}
+            <div>
+                <x-input-label for="title" :value="__('Название')" />
+                <x-text-input id="title" name="title" type="text" class="mt-1 block w-full"
+                              :value="old('title')" />
+                <x-input-error :messages="$errors->get('title')" class="mt-2" />
+            </div>
 
-        <div class="mt-4">
-            <x-input-label for="image" :value="__('Фото рецепта')" />
-            <x-text-input id="image" type="file" name="image" class="block mt-1 w-full" />
-            <x-input-error :messages="$errors->get('image')" class="mt-2" />
-        </div>
+            {{-- Категория --}}
+            <div>
+                <x-input-label for="category" :value="__('Категория')" />
+                <select id="category" name="category"
+                        class="block mt-1 w-full rounded border px-2 py-1 bg-gray-800 text-gray-200">
+                    <option value="">Выберите категорию</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @selected(old('category') == $category->id)>{{ $category->title }}</option>
+                    @endforeach
+                </select>
+                <x-input-error :messages="$errors->get('category')" class="mt-2" />
+            </div>
 
-<div class="mt-4">
-    <x-input-label for="content" :value="__('Рецепт')" />
-    <textarea id="content" name="content" class="block mt-1 w-full"></textarea>
-</div>
+            {{-- Описание --}}
+            <div>
+                <x-input-label for="description" :value="__('Описание')" />
+                <textarea id="description" name="description"
+                          class="mt-1 block w-full rounded border px-2 py-1 bg-gray-800 text-gray-200"
+                          rows="3">{{ old('description') }}</textarea>
+                <x-input-error :messages="$errors->get('description')" class="mt-2" />
+            </div>
 
-<div id="ingredients-wrapper" class="mt-4">
-    <x-input-label :value="__('Ингредиенты')" />
+            {{-- Ингредиенты --}}
+            <div>
+                <x-input-label :value="__('Ингредиенты')" />
+                <div id="ingredients-wrapper" class="space-y-2">
+                    @php
+                        $oldIngredients = old('ingredients', [['name'=>'','amount'=>'']]);
+                    @endphp
+                    @foreach($oldIngredients as $index => $ingredient)
+                        <div class="flex space-x-2 items-center ingredient">
+                            <input type="text"
+                                   name="ingredients[{{ $index }}][name]"
+                                   value="{{ $ingredient['name'] ?? '' }}"
+                                   placeholder="Название"
+                                   class="border rounded px-2 py-1 w-1/2 bg-gray-800 text-gray-200">
 
-    <div class="ingredient flex gap-2 mt-2">
-        <input type="text" name="ingredients[0][name]" placeholder="Название" class="border rounded p-2 w-1/2">
-        <input type="text" name="ingredients[0][amount]" placeholder="Количество" class="border rounded p-2 w-1/2">
+                            <input type="text"
+                                   name="ingredients[{{ $index }}][amount]"
+                                   value="{{ $ingredient['amount'] ?? '' }}"
+                                   placeholder="Количество"
+                                   class="border rounded px-2 py-1 w-1/4 bg-gray-800 text-gray-200">
+
+                            <button type="button"
+                                    class="bg-red-600 text-white px-2 py-1 rounded remove-ingredient">×</button>
+                        </div>
+
+                        @error("ingredients.$index.name")
+                        <div class="text-red-500 text-sm ml-1">{{ $message }}</div>
+                        @enderror
+                        @error("ingredients.$index.amount")
+                        <div class="text-red-500 text-sm ml-1">{{ $message }}</div>
+                        @enderror
+                    @endforeach
+                </div>
+
+                <button type="button" id="add-ingredient"
+                        class="mt-2 bg-green-600 text-white px-4 py-1 rounded">Добавить ингредиент
+                </button>
+            </div>
+
+            {{-- Контент / рецепт --}}
+            <div>
+                <x-input-label for="content" :value="__('Рецепт')" />
+                <textarea id="content" name="content"
+                          class="mt-1 block w-full rounded border px-2 py-1 bg-gray-800 text-gray-200"
+                          rows="6">{{ old('content') }}</textarea>
+                <x-input-error :messages="$errors->get('content')" class="mt-2" />
+            </div>
+
+            {{-- Картинка --}}
+            <div>
+                <x-input-label for="image" :value="__('Фото')" />
+                <x-text-input id="image" type="file" name="image" class="block mt-1 w-full" />
+                <x-input-error :messages="$errors->get('image')" class="mt-2" />
+            </div>
+
+            {{-- Кнопка --}}
+            <div>
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded">Сохранить рецепт</button>
+            </div>
+        </form>
     </div>
-</div>
 
-<button type="button" id="add-ingredient" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
-    Добавить ингредиент
-</button>
-<br>
-        <br>
-        <br>
-<script>
-    document.getElementById('add-ingredient').addEventListener('click', function () {
-        let wrapper = document.getElementById('ingredients-wrapper');
-        let index = wrapper.querySelectorAll('.ingredient').length;
+    {{-- Скрипт для динамических ингредиентов --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const wrapper = document.getElementById('ingredients-wrapper');
+            const addBtn = document.getElementById('add-ingredient');
 
-        let div = document.createElement('div');
-        div.classList.add('ingredient', 'flex', 'gap-2', 'mt-2');
+            function reindexIngredients() {
+                wrapper.querySelectorAll('.ingredient').forEach((row, index) => {
+                    row.querySelectorAll('input').forEach(input => {
+                        if (input.placeholder === 'Название') input.name = `ingredients[${index}][name]`;
+                        if (input.placeholder === 'Количество') input.name = `ingredients[${index}][amount]`;
+                    });
+                });
+            }
 
-        div.innerHTML = `
-        <input type="text" name="ingredients[${index}][name]" placeholder="Название" class="border rounded p-2 w-1/2">
-        <input type="text" name="ingredients[${index}][amount]" placeholder="Количество" class="border rounded p-2 w-1/2">
-    `;
+            addBtn.addEventListener('click', () => {
+                const newRow = document.createElement('div');
+                newRow.className = 'flex space-x-2 items-center ingredient';
+                newRow.innerHTML = `
+                    <input type="text" name="ingredients[][name]" placeholder="Название"
+                           class="border rounded px-2 py-1 w-1/2 bg-gray-800 text-gray-200">
+                    <input type="text" name="ingredients[][amount]" placeholder="Количество"
+                           class="border rounded px-2 py-1 w-1/4 bg-gray-800 text-gray-200">
+                    <button type="button" class="bg-red-600 text-white px-2 py-1 rounded remove-ingredient">×</button>
+                `;
+                wrapper.appendChild(newRow);
+                reindexIngredients();
+            });
 
-        wrapper.appendChild(div);
-    });
-</script>
-        <x-primary-button class="ms-4">
-            {{ __('Добавить рецепт') }}
-        </x-primary-button>
-    </form>
-</x-guest-layout>
+            wrapper.addEventListener('click', e => {
+                if (e.target.classList.contains('remove-ingredient')) {
+                    e.target.closest('.ingredient').remove();
+                    reindexIngredients();
+                }
+            });
+
+            reindexIngredients();
+        });
+    </script>
+</x-app-layout>
