@@ -31,7 +31,23 @@ class RecipeController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'content' => 'required|string',
             'category' => 'required',
-        ]);
+        ],
+            [
+                'title.required' => 'Поле "Название" обязательно для заполнения.',
+                'title.max' => 'Поле "Название" не должно превышать 255 символов.',
+                'description.max' => 'Поле "Описание" не должно превышать 2255 символов.',
+                'ingredients.required' => 'Необходимо добавить хотя бы один ингредиент.',
+                'ingredients.array' => 'Ошибка формата ингредиентов.',
+                'ingredients.*.name.required' => 'Введите название ингредиента.',
+                'ingredients.*.name.max' => 'Название ингредиента не должно превышать 255 символов.',
+                'ingredients.*.amount.required' => 'Введите количество ингредиента.',
+                'ingredients.*.amount.max' => 'Количество ингредиента не должно превышать 255 символов.',
+                'image.image' => 'Загрузите корректное изображение.',
+                'image.mimes' => 'Формат изображения должен быть: jpeg, png, jpg, gif, svg.',
+                'image.max' => 'Размер изображения не должен превышать 2 МБ.',
+                'content.required' => 'Поле "Рецепт" обязательно для заполнения.',
+                'category.required' => 'Выберите категорию рецепта.',
+            ]);
 
         $path = null;
 

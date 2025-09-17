@@ -11,23 +11,19 @@
             @endif
 
             {{-- Изображение --}}
-            @if($recipe->image)
-                <div class="my-4 w-full flex justify-start sm:justify-start">
-                    <img src="{{ asset('storage/' . $recipe->image) }}"
-                         alt="{{ $recipe->title }}"
-                         class="w-full sm:max-w-prose rounded-lg shadow mx-auto sm:mx-0">
-                </div>
-            @else
-                <div class="my-4 w-full flex justify-center">
-                    <img src="{{ asset('images/default.png') }}"
-                         alt="Нет изображения"
-                         class="w-full sm:max-w-prose rounded-lg shadow mx-auto sm:mx-0">
-                </div>
-            @endif
+            <div class="my-4 w-full flex justify-center">
+                @php
+                    $imagePath = $recipe->image ? 'storage/' . $recipe->image : 'storage/images/default.png';
+                    $imageAlt = $recipe->image ? $recipe->title : 'Нет изображения';
+                @endphp
+                <img src="{{ asset($imagePath) }}"
+                     alt="{{ $imageAlt }}"
+                     class="max-w-full h-auto rounded-lg shadow mx-auto">
+            </div>
 
             {{-- Описание --}}
             @if($recipe->description)
-                <p class="text-gray-300 break-words">{{ $recipe->description }}</p>
+                <p class="text-gray-300 break-words leading-relaxed">{{ $recipe->description }}</p>
             @endif
 
             {{-- Ингредиенты --}}
@@ -45,8 +41,17 @@
             {{-- Приготовление --}}
             <div>
                 <h2 class="text-2xl font-semibold mb-2">Приготовление:</h2>
-                <p class="whitespace-pre-line break-words">{{ $recipe->content }}</p>
+                @foreach(preg_split('/\r\n|\r|\n/', $recipe->content, -1, PREG_SPLIT_NO_EMPTY) as $line)
+
+{{--                    <img src="{{ asset('storage/images/s1.png') }}"--}}
+{{--                         alt="RecipeHub"--}}
+{{--                         class="max-w-full h-auto rounded-lg shadow mx-auto">--}}
+                    <p class="break-words leading-relaxed mb-4">{{ $line }}</p>
+                    <hr><br>
+                @endforeach
+
             </div>
+
 
         </div>
     </div>
