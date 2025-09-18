@@ -82,4 +82,79 @@ class RecipeController extends Controller
         $ingredients = Ingredient::where('recipe_id', $id)->get();
         return view('recipe.show', ['recipe' => $recipe, 'ingredients' => $ingredients]);
     }
+
+    public function edit($id){
+
+        $recipe = Recipe::findOrFail($id);
+        $ingredients = Ingredient::where('recipe_id', $id)->get();
+        $categories = Category::all();
+        return view('recipe.edit', ['recipe' => $recipe, 'ingredientsOld' => $ingredients, 'categories' => $categories]);
+
+
+    }
+
+    public function update(Request $request, $id){
+        $validated = $request->validate([
+            'title' => 'required|max:255|string',
+            'description' => 'nullable|max:2255|string',
+            'ingredients' => 'required|array',
+            'ingredients.*.name' => 'required|string|min:1|max:255',
+            'ingredients.*.quantity' => 'required|string|min:1|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'content' => 'required|string',
+            'category' => 'required',
+        ],
+            [
+                'title.required' => 'Поле "Название" обязательно для заполнения.',
+                'title.max' => 'Поле "Название" не должно превышать 255 символов.',
+                'description.max' => 'Поле "Описание" не должно превышать 2255 символов.',
+                'ingredients.required' => 'Необходимо добавить хотя бы один ингредиент.',
+                'ingredients.array' => 'Ошибка формата ингредиентов.',
+                'ingredients.*.name.required' => 'Введите название ингредиента.',
+                'ingredients.*.name.max' => 'Название ингредиента не должно превышать 255 символов.',
+                'ingredients.*.quantity.required' => 'Введите количество ингредиента.',
+                'ingredients.*.quantity.max' => 'Количество ингредиента не должно превышать 255 символов.',
+                'image.image' => 'Загрузите корректное изображение.',
+                'image.mimes' => 'Формат изображения должен быть: jpeg, png, jpg, gif, svg.',
+                'image.max' => 'Размер изображения не должен превышать 2 МБ.',
+                'content.required' => 'Поле "Рецепт" обязательно для заполнения.',
+                'category.required' => 'Выберите категорию рецепта.',
+            ]);
+
+        $path = null;
+
+        if (isset($validated['image'])) {
+            $path = $validated['image']->store('images', 'public');
+        }
+
+        $recipe = Recipe::findOrFail($id);
+
+        $recipe->title = $validated['title'];
+        $recipe->description = $validated['description'] ?? null;
+        $recipe->image = $path;
+        $recipe->content = $validated['content'];
+        $recipe->category_id = $validated['category'];
+        $recipe->user_id = auth()->id();
+        $recipe->save();
+
+        Ingredient::where('recipe_id', $recipe->id)->delete();
+
+       foreach ($validated['ingredients'] as $item) {
+           $ingredient = new Ingredient();
+           $ingredient->name = $item['name'];
+           $ingredient->quantity = $item['quantity'];
+           $ingredient->recipe_id = $recipe->id; // связка с рецептом
+           $ingredient->save();
+
+       }
+        return redirect()->route('recipes.index')->with('success', 'Рецепт изменен!');
+
+
+    }
+
+    public function destroy($id){
+        Recipe::findOrFail($id)->delete();
+
+        //вьюху не забыть добавить
+    }
 }
