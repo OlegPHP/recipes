@@ -10,7 +10,12 @@ use App\Models\Category;
 class RecipeController extends Controller
 {
     public function index(){
-        return view('recipe.index');
+
+        $recipes = Recipe::all();
+        $categories = Category::all();
+
+
+        return view('recipe.index', compact('recipes', 'categories'));
     }
     public function create()
     {
@@ -155,6 +160,6 @@ class RecipeController extends Controller
     public function destroy($id){
         Recipe::findOrFail($id)->delete();
 
-        //вьюху не забыть добавить
+        return redirect()->route('recipes.index')->with('success', 'Рецепт удален!');
     }
 }
