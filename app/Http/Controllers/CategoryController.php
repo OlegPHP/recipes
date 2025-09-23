@@ -12,7 +12,7 @@ class CategoryController extends Controller
     public function show($id){
         $categories = Category::all();
         $category = Category::findOrFail($id);
-        $recipes = $category->recipes;
+        $recipes = $category->recipes()->paginate(6);
         return view('category.show', ['recipes' => $recipes, 'categories' => $categories]);
     }
 }

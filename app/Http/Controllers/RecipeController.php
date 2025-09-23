@@ -162,4 +162,14 @@ class RecipeController extends Controller
 
         return redirect()->route('recipes.index')->with('success', 'Рецепт удален!');
     }
+
+    public function search(Request $request){
+
+        $search = $request->get('search');
+        $recipes = Recipe::where('title', 'like', "%{$search}%")
+            ->orWhere('description', 'like', '%'.$search.'%')->paginate(6);
+        $categories = Category::all();
+
+        return view('recipe.search', compact('recipes', 'search', 'categories'));
+    }
 }

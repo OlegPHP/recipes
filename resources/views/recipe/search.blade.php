@@ -17,10 +17,21 @@
         </div>
     </nav>
 
+    <form action="{{ route('recipes.search') }}" method="GET" class="flex justify-center mb-6">
+        <input type="text" name="search" value="{{request('search')}}"
+               placeholder="Искать рецепт..."
+
+               class="w-full sm:w-2/3 px-4 py-2 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <button type="submit"
+                class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg hover:bg-indigo-700">
+            🔍
+        </button>
+    </form>
+
     {{-- Сетка рецептов --}}
     <div class="max-w-6xl mx-auto p-6 space-y-6">
         @if($recipes->isEmpty())
-            <p class="text-gray-400 text-center mt-10">Рецептов в этой категории пока нет.</p>
+            <p class="text-gray-400 text-center mt-10">Рецепт не найдет.</p>
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 @foreach($recipes as $recipe)
@@ -50,5 +61,4 @@
         @endif
     </div>
     {{ $recipes->links() }}
-
 </x-app-layout>
