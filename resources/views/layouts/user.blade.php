@@ -17,7 +17,28 @@
 <body class="font-sans antialiased flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
 <div class="flex-1">
     <!-- Header / навигация -->
-    @include('layouts.navigation') {{-- если нужна навигация админа --}}
+    <header class="bg-white dark:bg-gray-800 shadow">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100"><a href="{{ route('home') }}">Главная</a></h1>
+
+            <div class="space-x-4">
+                @if (Route::has('login'))
+                    @auth
+                        <a href="{{ url('/dashboard') }}"
+                           class="text-gray-800 dark:text-gray-100 hover:underline">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}"
+                           class="text-gray-800 dark:text-gray-100 hover:underline">Вход</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}"
+                               class="text-gray-800 dark:text-gray-100 hover:underline">Регистрация</a>
+                        @endif
+                    @endauth
+                @endif
+            </div>
+        </div>
+    </header>
 
     @isset($header)
         <header class="bg-white dark:bg-gray-800 shadow">

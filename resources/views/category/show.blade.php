@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends(auth()->check() ? 'layouts.app' : 'layouts.user')
+
+@section('content')
     {{-- Навигация категорий --}}
     <nav class="max-w-4xl mx-auto p-6 bg-gray-900 text-gray-200">
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -51,4 +53,4 @@
     </div>
     {{ $recipes->links() }}
 
-</x-app-layout>
+@endsection

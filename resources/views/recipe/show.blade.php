@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends(auth()->check() ? 'layouts.app' : 'layouts.user')
+
+@section('content')
     <div class="bg-gray-900 text-gray-200 min-h-screen flex justify-center p-6 text-lg">
         <div class="w-full max-w-4xl space-y-6">
 
@@ -55,4 +57,4 @@
 
         </div>
     </div>
-</x-app-layout>
+@endsection

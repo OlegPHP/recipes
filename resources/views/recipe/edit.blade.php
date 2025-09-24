@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends(auth()->check() ? 'layouts.app' : 'layouts.user')
+
+@section('content')
     @php
                 /** @var \Illuminate\Support\Collection|\App\Models\Ingredient[] $ingredientsOld */
             @endphp
@@ -147,4 +149,4 @@ $oldIngredients = old('ingredients', $ingredientsOld->toArray());
             reindexIngredients();
         });
     </script>
-</x-app-layout>
+@endsection
