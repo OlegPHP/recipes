@@ -1,5 +1,7 @@
 @extends(auth()->check() ? 'layouts.app' : 'layouts.user')
 
+@section('title', 'Поиск' )
+
 @section('content')
     {{-- Навигация категорий --}}
     <nav class="max-w-4xl mx-auto p-6 bg-gray-900 text-gray-200">

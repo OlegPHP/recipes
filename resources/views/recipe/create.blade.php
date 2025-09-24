@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Добавить рецепт' )
+
 @section('content')
     <div class="max-w-4xl mx-auto p-6 bg-gray-900 text-gray-200 space-y-6">
 

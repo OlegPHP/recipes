@@ -12,7 +12,8 @@ class CategoryController extends Controller
     public function show($id){
         $categories = Category::all();
         $category = Category::findOrFail($id);
+        $title = $category->title;
         $recipes = $category->recipes()->paginate(6);
-        return view('category.show', ['recipes' => $recipes, 'categories' => $categories]);
+        return view('category.show', ['recipes' => $recipes, 'categories' => $categories, 'title' => $title]);
     }
 }

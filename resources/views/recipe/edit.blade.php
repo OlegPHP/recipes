@@ -1,5 +1,7 @@
 @extends(auth()->check() ? 'layouts.app' : 'layouts.user')
 
+@section('title', 'Изменить рецепт' )
+
 @section('content')
     @php
                 /** @var \Illuminate\Support\Collection|\App\Models\Ingredient[] $ingredientsOld */

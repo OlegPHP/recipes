@@ -1,5 +1,7 @@
 @extends(auth()->check() ? 'layouts.app' : 'layouts.user')
 
+@section('title', $recipe->title)
+
 @section('content')
     <div class="bg-gray-900 text-gray-200 min-h-screen flex justify-center p-6 text-lg">
         <div class="w-full max-w-4xl space-y-6">
@@ -44,16 +46,26 @@
             <div>
                 <h2 class="text-2xl font-semibold mb-2">Приготовление:</h2>
                 @foreach(preg_split('/\r\n|\r|\n/', $recipe->content, -1, PREG_SPLIT_NO_EMPTY) as $line)
-
-{{--                    <img src="{{ asset('storage/images/s1.png') }}"--}}
-{{--                         alt="RecipeHub"--}}
-{{--                         class="max-w-full h-auto rounded-lg shadow mx-auto">--}}
                     <p class="break-words leading-relaxed mb-4">{{ $line }}</p>
-                    <hr><br>
+                    <hr class="border-gray-700 mb-4">
                 @endforeach
-
             </div>
 
+            {{-- Кнопки редактирования и удаления (для авторизованных) --}}
+            @auth
+                <div class="mt-6 flex space-x-2">
+                    <a href="{{ route('recipes.edit', $recipe->id) }}"
+                       class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Редактировать</a>
+
+                    <form method="POST" action="{{ route('recipes.destroy', $recipe->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                                onclick="return confirm('Вы уверены, что хотите удалить этот рецепт?')">Удалить</button>
+                    </form>
+                </div>
+            @endauth
 
         </div>
     </div>

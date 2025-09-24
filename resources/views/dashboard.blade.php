@@ -1,5 +1,7 @@
 @extends(auth()->check() ? 'layouts.app' : 'layouts.user')
 
+@section('title', 'Admin Page' )
+
 @section('content')
 
         <h2 class="font-semibold text-2xl text-gray-100 leading-tight">
