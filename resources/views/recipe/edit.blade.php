@@ -100,9 +100,21 @@ $oldIngredients = old('ingredients', $ingredientsOld->toArray());
             {{-- Картинка --}}
             <div>
                 <x-input-label for="image" :value="__('Фото')" />
+
+                {{-- Показываем текущее изображение, если есть --}}
+                @if($recipe->image)
+                    <div class="my-2">
+                        <img src="{{ asset('storage/' . $recipe->image) }}"
+                             alt="{{ $recipe->title }}"
+                             class="max-w-xs h-auto rounded shadow">
+                    </div>
+                @endif
+
+                {{-- Поле для загрузки новой --}}
                 <x-text-input id="image" type="file" name="image" class="block mt-1 w-full" />
                 <x-input-error :messages="$errors->get('image')" class="mt-2" />
             </div>
+
 
             {{-- Кнопка --}}
             <div>

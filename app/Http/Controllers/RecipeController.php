@@ -126,17 +126,18 @@ class RecipeController extends Controller
                 'category.required' => 'Выберите категорию рецепта.',
             ]);
 
-        $path = null;
-
-        if (isset($validated['image'])) {
-            $path = $validated['image']->store('images', 'public');
-        }
-
         $recipe = Recipe::findOrFail($id);
+
+        // Обновляем изображение, если пользователь загрузил новое
+        if (isset($validated['image'])) {
+            if ($recipe->image && \Storage::disk('public')->exists($recipe->image)) {
+                \Storage::disk('public')->delete($recipe->image);
+            }
+            $recipe->image = $validated['image']->store('images', 'public');
+        }
 
         $recipe->title = $validated['title'];
         $recipe->description = $validated['description'] ?? null;
-        $recipe->image = $path;
         $recipe->content = $validated['content'];
         $recipe->category_id = $validated['category'];
         $recipe->user_id = auth()->id();
