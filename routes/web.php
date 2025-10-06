@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 // 🏠 Главная — список рецептов
 
 
+
+
 Route::resource('categories', CategoryController::class);
 Route::get('/search', [RecipeController::class, 'search'])->name('recipes.search');
 

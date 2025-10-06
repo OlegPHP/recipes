@@ -13,7 +13,7 @@
             {{-- Название --}}
             <div>
                 <x-input-label for="title" :value="__('Название')" />
-                <x-text-input id="title" name="title" type="text" class="mt-1 block w-full"
+                <x-text-input id="title" name="title" type="text" class="mt-1 block w-full rounded border px-2 py-1 bg-gray-800 text-gray-200"
                               :value="old('title')" />
                 <x-input-error :messages="$errors->get('title')" class="mt-2" />
             </div>
