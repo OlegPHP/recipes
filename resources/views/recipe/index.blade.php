@@ -21,10 +21,10 @@
     </nav>
 
     <div class="max-w-4xl mx-auto p-6 text-center">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+        <h1 class="text-2xl font-bold text-gray-100 mb-2">
             Добро пожаловать на наш сайт рецептов!
         </h1>
-        <p class="text-gray-700 dark:text-gray-300">
+        <p class="text-gray-300">
             Исследуй, находи и делись вкусными рецептами!
         </p>
     </div>
@@ -32,14 +32,12 @@
     <form action="{{ route('recipes.search') }}" method="GET" class="flex justify-center mb-6">
         <input type="text" name="search"
                placeholder="Искать рецепт..."
-
-               class="w-full sm:w-2/3 px-4 py-2 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+               class="w-full sm:w-2/3 px-4 py-2 rounded-l-lg border border-gray-700 bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
         <button type="submit"
                 class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg hover:bg-indigo-700">
             🔍
         </button>
     </form>
-
 
     <div class="max-w-4xl mx-auto p-6">
         @if(session('success'))
@@ -64,5 +62,4 @@
             </div>
         @endif
     </div>
-
 @endsection

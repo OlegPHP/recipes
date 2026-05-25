@@ -25,7 +25,7 @@
         <input type="text" name="search" value="{{request('search')}}"
                placeholder="Искать рецепт..."
 
-               class="w-full sm:w-2/3 px-4 py-2 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+               class="w-full sm:w-2/3 px-4 py-2 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 bg-gray-100">
         <button type="submit"
                 class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg hover:bg-indigo-700">
             🔍
