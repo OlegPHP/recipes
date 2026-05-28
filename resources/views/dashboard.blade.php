@@ -1,12 +1,10 @@
 @extends(auth()->check() ? 'layouts.app' : 'layouts.user')
 
-@section('title', 'Admin Page' )
+@section('title', 'Страница администратора' )
 
 @section('content')
 
-        <h2 class="font-semibold text-2xl text-gray-100 leading-tight">
-            {{ __('👑 Admin Page') }}
-        </h2>
+
 
 
     <div class="py-12">

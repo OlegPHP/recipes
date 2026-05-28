@@ -8,6 +8,7 @@
     <title>@yield('title', config('app.name', 'Laravel'))</title>
 
     <!-- Fonts -->
+    <link rel="icon" href="{{ asset('images/fav.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
@@ -36,7 +37,7 @@
 <!-- Footer -->
 <footer class="bg-gray-800 text-gray-200 py-4 mt-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-        Projects by Oleg Vlasov 2025 © All rights reserved
+        Projects by Oleg Vlasov {{date('Y')}} © All rights reserved
     </div>
 </footer>
 </body>
