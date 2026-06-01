@@ -82,23 +82,23 @@ class RecipeController extends Controller
 
     }
 
-    public function show($id){
-        $recipe = Recipe::findOrFail($id);
-        $ingredients = Ingredient::where('recipe_id', $id)->get();
+    public function show(Recipe $recipe){
+
+        $ingredients = Ingredient::where('recipe_id', $recipe->id)->get();
         return view('recipe.show', ['recipe' => $recipe, 'ingredients' => $ingredients]);
     }
 
-    public function edit($id){
+    public function edit(Recipe $recipe){
 
-        $recipe = Recipe::findOrFail($id);
-        $ingredients = Ingredient::where('recipe_id', $id)->get();
+
+        $ingredients = Ingredient::where('recipe_id', $recipe->id)->get();
         $categories = Category::all();
         return view('recipe.edit', ['recipe' => $recipe, 'ingredientsOld' => $ingredients, 'categories' => $categories]);
 
 
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, Recipe $recipe){
         $validated = $request->validate([
             'title' => 'required|max:255|string',
             'description' => 'nullable|max:2255|string',
@@ -126,7 +126,7 @@ class RecipeController extends Controller
                 'category.required' => 'Выберите категорию рецепта.',
             ]);
 
-        $recipe = Recipe::findOrFail($id);
+
 
         // Обновляем изображение, если пользователь загрузил новое
         if (isset($validated['image'])) {
@@ -158,8 +158,8 @@ class RecipeController extends Controller
 
     }
 
-    public function destroy($id){
-        Recipe::findOrFail($id)->delete();
+    public function destroy(Recipe $recipe){
+        $recipe->delete();
 
         return redirect()->route('recipes.index')->with('success', 'Рецепт удален!');
     }

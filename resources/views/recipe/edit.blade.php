@@ -10,7 +10,7 @@
 
         <h1 class="text-3xl font-bold mb-4">Редактировать рецепт</h1>
 
-        <form action="{{ route('recipes.update', ['recipe'=>$recipe->id]) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{ route('recipes.update', $recipe) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @method('PATCH')
             @csrf
 

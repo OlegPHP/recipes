@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Ingredient;
+use Illuminate\Support\Str;
 
 class Recipe extends Model
 {
@@ -13,6 +14,7 @@ class Recipe extends Model
         'user_id',
         'сategory_id',
         'title',
+        'slug',
         'description',
         'content',
         'image',
@@ -31,5 +33,22 @@ class Recipe extends Model
         return $this->hasMany(Ingredient::class);
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($recipe) {
+            $slug = Str::slug($recipe->title);
+
+            $count = static::where('slug', 'like', "{$slug}%")->count();
+
+            $recipe->slug = $count ? "{$slug}-{$count}" : $slug;
+
+        });
+
+    }
 
 }

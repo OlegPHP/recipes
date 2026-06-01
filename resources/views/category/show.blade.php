@@ -28,7 +28,7 @@
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 @foreach($recipes as $recipe)
-                    <a href="{{ route('recipes.show', ['recipe'=>$recipe->id]) }}"
+                    <a href="{{ route('recipes.show', $recipe) }}"
                        class="block bg-gray-800 rounded-xl overflow-hidden shadow-lg
           hover:shadow-2xl hover:scale-105 transition-transform transition-shadow duration-300">
 

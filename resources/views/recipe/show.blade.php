@@ -54,10 +54,10 @@
             {{-- Кнопки редактирования и удаления (для авторизованных) --}}
             @auth
                 <div class="mt-6 flex space-x-2">
-                    <a href="{{ route('recipes.edit', $recipe->id) }}"
+                    <a href="{{ route('recipes.edit', $recipe) }}"
                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Редактировать</a>
 
-                    <form method="POST" action="{{ route('recipes.destroy', $recipe->id) }}">
+                    <form method="POST" action="{{ route('recipes.destroy', $recipe) }}">
                         @csrf
                         @method('DELETE')
                         <button type="submit"
