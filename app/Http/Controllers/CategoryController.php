@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function show($id){
+    public function show(Category $category){
         $categories = Category::all();
-        $category = Category::findOrFail($id);
+
         $title = $category->title;
         $recipes = $category->recipes()->paginate(6);
-        return view('category.show', ['recipes' => $recipes, 'categories' => $categories, 'title' => $title]);
+        return view('category.show', compact('categories','recipes', 'title'));
     }
 }

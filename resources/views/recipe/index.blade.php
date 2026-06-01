@@ -6,10 +6,10 @@
     <nav class="max-w-4xl mx-auto p-6 bg-gray-900 text-gray-200">
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             @foreach($categories as $category)
-                <a href="{{ route('categories.show', ['category'=>$category->id]) }}"
+                <a href="{{ route('categories.show', $category) }}"
                    class="flex items-center justify-center text-center px-4 py-2 rounded-xl
                           transition-colors duration-300 shadow-sm text-sm font-medium
-                          @if(request()->routeIs('categories.show') && request()->category == $category->id)
+                          @if(request()->route('category')?->is($category))
                               bg-indigo-600 text-white
                           @else
                               bg-gray-800 text-gray-200 hover:bg-indigo-600 hover:text-white
