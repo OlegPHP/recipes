@@ -47,6 +47,15 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-red-400" />
         </div>
 
+        <div class="mt-4">
+            <label for="privacy" class="inline-flex items-center">
+                <input id="privacy" type="checkbox" name="privacy" required class="rounded border-gray-300">
+                <span class="ms-2 text-sm text-gray-300">
+            Я согласен на обработку email и персональных данных
+        </span>
+            </label>
+        </div>
+
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-400 hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
                 {{ __('Already registered?') }}

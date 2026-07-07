@@ -60,6 +60,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
         Projects by Oleg Vlasov {{date('Y')}} © All rights reserved
     </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm ">
+        <a href="/privacy"  class="text-gray-400 hover:underline">Политика конфиденциальности</a>
+    </div>
 </footer>
 </body>
 </html>

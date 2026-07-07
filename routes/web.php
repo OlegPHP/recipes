@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('categories', CategoryController::class);
 Route::get('/search', [RecipeController::class, 'search'])->name('recipes.search');
+Route::view('/privacy', 'privacy');
 
 // 📊 Дашборд (только авторизованные и верифицированные)
 Route::get('/dashboard', function () {
