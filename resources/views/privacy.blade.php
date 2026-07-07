@@ -8,7 +8,7 @@
 
         <div class="rounded-2xl border border-zinc-700 bg-zinc-900 p-6 shadow-2xl sm:p-10">
 
-            <h1 class="mb-12  border-zinc-700 pb-6 text-4xl font-bold">
+            <h1 class="mb-12  border-zinc-700 pb-6 text-2xl sm:text-3xl lg:text-4xl font-bold">
                 Политика конфиденциальности
             </h1>
 
